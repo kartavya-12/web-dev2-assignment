@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Event Dashboard</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI", Arial, sans-serif;
+}
+
+body{
+    min-height:100vh;
+    width:100vw;
+    background: linear-gradient(135deg,#5fd3d1,#7be4e2);
+}
+
+header{
+    text-align:center;
+    padding:20px 0;
+    font-size:28px;
+    font-weight:600;
+}
+
+.main{
+    display:flex;
+    gap:20px;
+    padding:20px;
+    width:100%;
+}
+
+.event-box{
+    background:#fff;
+    border-radius:12px;
+    padding:15px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+
+#container{
+    width:50%;
+}
+
+#container h2{
+    color:rgb(22,156,240);
+    margin-bottom:12px;
+}
+
+label{
+    display:block;
+    font-size:13px;
+    margin-top:8px;
+}
+
+input, select, textarea{
+    width:100%;
+    padding:7px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+
+textarea{
+    resize:none;
+    height:70px;
+}
+
+#addBtn{
+    margin-top:12px;
+    width:100%;
+    padding:9px;
+    background:rgb(0,94,255);
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+#schedule-container{
+    width:75%;
+}
+
+#schedule-container h2{
+    color:rgb(22,156,240);
+    margin-bottom:10px;
+}
+
+#btns-container{
+    display:flex;
+    gap:12px;
+    margin-bottom:15px;
+}
+
+#btns-container button{
+    flex:1;
+    padding:8px;
+    background:#5b7bd5;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+#event-list{
+    min-height:220px;
+    background:#fff;
+    border-radius:10px;
+    padding:15px;
+    color:#777;
+    box-shadow: inset 0 0 0 1px #eee;
+}
+
+.event{
+    background:#f1f6ff;
+    padding:10px;
+    border-radius:8px;
+    margin-bottom:10px;
+    position:relative;
+}
+
+.event h4{
+    margin-bottom:4px;
+}
+
+.event span{
+    font-size:12px;
+    color:#555;
+    margin-right:8px;
+}
+
+.event p{
+    margin-top:6px;
+    font-size:13px;
+}
+
+.delete{
+    position:absolute;
+    top:8px;
+    right:8px;
+    border:none;
+    background:#ff5c5c;
+    color:white;
+    border-radius:6px;
+    padding:2px 6px;
+    cursor:pointer;
+}
+
+.dom-demo{
+    margin:0 20px 20px;
+    background: white;
+    padding:15px;
+    border-radius:12px;
+}
+
+.dom-demo h2{
+    color:rgb(22,156,240);
+    margin-bottom:10px;
+}
+
+.dom-box{
+    background:white;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #ddd;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>Smart Event Dashboard</header>
+
+<div class="main">
+
+    <div id="container" class="event-box">
+        <h2>Add New Event</h2>
+
+        <form id="eventForm">
+            <label>Event Title:</label>
+            <input type="text" id="title" required>
+
+            <label>Event Date:</label>
+            <input type="date" id="date" required>
+
+            <label>Category:</label>
+            <select id="category">
+                <option>Conference</option>
+                <option>Webinar</option>
+                <option>Social</option>
+                <option>Workshop</option>
+                <option>Meetup</option>
+            </select>
+
+            <label>Description:</label>
+            <textarea id="description"></textarea>
+
+            <button id="addBtn" type="submit">Add Event</button>
+        </form>
+    </div>
+
+    <div id="schedule-container" class="event-box">
+        <h2>My Events</h2>
+
+        <div id="btns-container">
+            <button id="clearBtn">Clear All Events</button>
+            <button id="sampleBtn">Add Sample Events</button>
+        </div>
+
+        <div id="event-list">No events yet. Add your first event!</div>
+    </div>
+
+</div>
+
+<div class="dom-demo">
+    <h2>DOM Manipulation Demo</h2>
+    <div class="dom-box" id="keyBox">You Pressed: —</div>
+</div>
+<script>const form = document.getElementById("eventForm");
+const eventList = document.getElementById("event-list");
+const clearBtn = document.getElementById("clearBtn");
+const sampleBtn = document.getElementById("sampleBtn");
+const keyBox = document.getElementById("keyBox");
+
+form.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    if(eventList.textContent.includes("No events")){
+        eventList.innerHTML="";
+    }
+
+    const card = document.createElement("div");
+    card.className="event";
+
+    card.innerHTML = `
+        <button class="delete">X</button>
+        <h4>${title.value}</h4>
+        <span>${date.value}</span>
+        <span>${category.value}</span>
+        <p>${description.value}</p>
+    `;
+
+    eventList.appendChild(card);
+    form.reset();
+});
+
+eventList.addEventListener("click", function(e){
+    if(e.target.classList.contains("delete")){
+        e.target.parentElement.remove();
+        if(eventList.children.length===0){
+            eventList.textContent="No events yet. Add your first event!";
+        }
+    }
+});
+
+clearBtn.onclick = ()=>{
+    eventList.textContent="No events yet. Add your first event!";
+};
+
+sampleBtn.onclick = ()=>{
+    eventList.innerHTML="";
+    ["Conference 2026","Web Dev Webinar","College Meetup"].forEach(name=>{
+        const div=document.createElement("div");
+        div.className="event";
+        div.innerHTML=`
+            <button class="delete">X</button>
+            <h4>${name}</h4>
+            <span>Sample Date</span>
+            <span>Sample Category</span>
+            <p>Sample Description</p>
+        `;
+        eventList.appendChild(div);
+    });
+};
+
+document.addEventListener("keydown", e=>{
+    keyBox.textContent="You Pressed: " + e.key;
+});</script>
+
+</body>
+</html>
