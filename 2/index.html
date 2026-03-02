@@ -1,18 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title> Async Weather Tracker </title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <form id = "weather_form">
-        <label for = "city">search city</label>
-        <input type = "text" id = "city">
-        <input type = "submit" id="search" value="search">
-    </form>
-    <div class="info"></div>
-    <div class="event"></div>
+    <h1>
+        🌦️ Async Weather Tracker
+    </h1>
+    <button id="dark-toggle">Dark Mode</button>
+    <div id="search-box">
+
+        <div id="first-search">
+            <h3>Search City</h3>
+            <form action="">
+                <input type="text" id="search-city" placeholder="Delhi,Mumbai etc......">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        <div id="search-history">
+            <h3>Search History</h3>
+            <button id="clear-all">🗑 Clear All</button>
+            <div id="search-cities-box">
+
+            </div>
+        </div>
+    </div>
+
+    <div id="Weather-info-box">
+        <h3>Weather Info</h3>
+        <div id="fetched-data-box">
+
+        </div>
+    </div>
     <script src="script.js"></script>
-</body>
+    </body>
+
 </html>
